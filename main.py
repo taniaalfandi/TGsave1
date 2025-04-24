@@ -195,6 +195,9 @@ while True:
                         send_message(chat_id, "✅ Done broadcasting.")
                     else:
                         send_message(chat_id, "❌ Usage: /broadcast your message")
+                elif text.startswith("/users") and is_owner(user_id):
+                    users = load_json(users_file)
+                    send_message(chat_id, f"👥 Total users: {len(users)}")
 
             for media_type in ['document', 'video', 'audio', 'voice', 'video_note', 'photo']:
                 if media_type in message:
