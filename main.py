@@ -1,7 +1,7 @@
 import requests, time, json, base64, os
 
 # Bot Config
-BOT_TOKEN = '7600453011:AAFq0ivTeAFFmgIS5nhFBZG3AsgvQPpcGbU'
+BOT_TOKEN = ''
 API_URL = f'https://api.telegram.org/bot{BOT_TOKEN}'
 BOT_USERNAME = 'FileStorageX_Bot'
 STORAGE_CHANNEL_ID = '-1001768148253'
