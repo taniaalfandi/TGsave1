@@ -1,9 +1,9 @@
 import requests, time, json, base64, os
 
 # Bot Config
-BOT_TOKEN = ''
+BOT_TOKEN = '7600453011:AAFq0ivTeAFFmgIS5nhFBZG3AsgvQPpcGbU'
 API_URL = f'https://api.telegram.org/bot{BOT_TOKEN}'
-BOT_USERNAME = ''
+BOT_USERNAME = 'FileStorageX_Bot'
 STORAGE_CHANNEL_ID = '-1001768148253'
 FORCE_SUB_CHANNEL = '@niraj_rewards'
 OWNER_ID = 2133811513  # 🔐 Bot owner ka Telegram ID
