@@ -1,6 +1,7 @@
 services:
   - type: worker
-    name: telegram-bot
+    name: filestore-tg-bot
     env: python
-    buildCommand: ""
-    startCommand: ./start.sh
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python main.py"
