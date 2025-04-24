@@ -1,7 +1,7 @@
 import requests, time, json, base64, os
 
 # Bot Config
-BOT_TOKEN = ''
+BOT_TOKEN = '7600453011:AAFq0ivTeAFFmgIS5nhFBZG3AsgvQPpcGbU'
 API_URL = f'https://api.telegram.org/bot{BOT_TOKEN}'
 BOT_USERNAME = 'FileStorageX_Bot'
 STORAGE_CHANNEL_ID = '-1001768148253'
@@ -195,6 +195,7 @@ while True:
                         send_message(chat_id, "✅ Done broadcasting.")
                     else:
                         send_message(chat_id, "❌ Usage: /broadcast your message")
+                        
                 elif text.startswith("/users") and is_owner(user_id):
                     users = load_json(users_file)
                     send_message(chat_id, f"👥 Total users: {len(users)}")
