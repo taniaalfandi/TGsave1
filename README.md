@@ -12,7 +12,6 @@ Made with ❤️ in Python using the `requests` module and the Telegram Bot API 
 
 - 📤 Upload any file (video, doc, audio, image, etc.)
 - 🔗 Generate shareable link like: `https://t.me/YourBot?start=somecode`
-- 🗂 Save files to your private storage channel
 - 🚫 Ban/unban users
 - 📢 Broadcast messages
 - 🔒 Force join before usage
