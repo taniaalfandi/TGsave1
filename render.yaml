@@ -1,8 +1,7 @@
-#services:
- # - type: worker
- #   name: filestore-tg-bot
- #   env: python
- #   plan: free
- #  buildCommand: "pip install -r requirements.txt"
- #   startCommand: "python main.py"
-startCommand: bash start.sh
+services:
+  - type: worker
+    name: File-Shareing-Bot
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "bash start.sh"
