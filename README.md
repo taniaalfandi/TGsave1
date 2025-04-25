@@ -17,7 +17,6 @@ Made with ❤️ in Python using the `requests` module and the Telegram Bot API 
 - 📢 Broadcast messages
 - 🔒 Force join before usage
 - 👤 Track total users
-- 🚀 Lightweight – perfect for free hosting (like Fly.io)
 
 ---
 
