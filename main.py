@@ -1,17 +1,20 @@
 import requests, time, json, base64
-import os
+from config import *
 
-BOT_TOKEN = os.getenv('BOT_TOKEN')
-OWNER_ID = int(os.getenv('OWNER_ID'))
-STORAGE_CHANNEL_ID = int(os.getenv('STORAGE_CHANNEL_ID'))
-FORCE_SUB_CHANNEL = os.getenv('FORCE_SUB_CHANNEL')
-BOT_USERNAME = os.getenv('BOT_USERNAME')
-API_URL = f"https://api.telegram.org/bot{BOT_TOKEN}"
+API_URL = f'https://api.telegram.org/bot{BOT_TOKEN}'
+
+# # Bot Config
+# BOT_TOKEN = '7234737115:AAHtK02uy5rFJxICyffdqc2ZRtF13aQEuCA'
+# BOT_USERNAME = 'ytdownloaderV2_Bot'
+# STORAGE_CHANNEL_ID = -1001768148253
+# FORCE_SUB_CHANNEL = '@niraj_rewards'
+# OWNER_ID = 2133811513  # 🔐 Bot owner ka Telegram ID
 
 offset = 0
 ban_file = 'banned.json'
 users_file = 'users.json'
 
+# Helper: Load & Save JSON
 def load_json(path):
     if not os.path.exists(path): return []
     with open(path, 'r') as f: return json.load(f)
@@ -19,19 +22,23 @@ def load_json(path):
 def save_json(path, data):
     with open(path, 'w') as f: json.dump(data, f)
 
+# ❌ Ban check
 def is_banned(user_id):
     return user_id in load_json(ban_file)
 
+# ✅ Register user
 def register_user(user_id):
     users = load_json(users_file)
     if user_id not in users:
         users.append(user_id)
         save_json(users_file, users)
 
+# 🔐 Only owner allowed
 def is_owner(user_id):
     return user_id == OWNER_ID
 
-def send_force_sub_msg(chat_id, first_name="User"):
+# Force join
+def send_force_sub_msg(chat_id):
     btn = {
         "inline_keyboard": [
             [{"text": "📢 Join Channel", "url": f"https://t.me/{FORCE_SUB_CHANNEL.strip('@')}"}],
@@ -40,7 +47,7 @@ def send_force_sub_msg(chat_id, first_name="User"):
     }
     requests.post(f"{API_URL}/sendMessage", data={
         "chat_id": chat_id,
-        "text": f"Hello 🙋{first_name}!\n I`m Generates free links to share videos.\n\n🔐 Pehle channel join karo tabhi access milega!",
+        "text": "🔒 Pehle channel join karo tabhi access milega!",
         "reply_markup": json.dumps(btn)
     })
 
@@ -56,6 +63,7 @@ def check_subscription(user_id):
 def send_message(chat_id, text):
     requests.post(f"{API_URL}/sendMessage", data={"chat_id": chat_id, "text": text})
 
+# File upload
 def handle_file(chat_id, user_id, file_type, file_id, message_id):
     if is_banned(user_id):
         send_message(chat_id, "❌ You are banned from using this bot.")
@@ -63,6 +71,7 @@ def handle_file(chat_id, user_id, file_type, file_id, message_id):
     if not check_subscription(user_id):
         send_force_sub_msg(chat_id)
         return
+
     try:
         resp = requests.post(f"{API_URL}/forwardMessage", data={
             "chat_id": STORAGE_CHANNEL_ID,
@@ -73,14 +82,17 @@ def handle_file(chat_id, user_id, file_type, file_id, message_id):
         if not result.get("ok"):
             send_message(chat_id, "❌ File forward nahi hua.")
             return
+
         stored_message_id = result['result']["message_id"]
         unique_code = base64.urlsafe_b64encode(str(stored_message_id).encode()).decode()
         link = f"https://t.me/{BOT_USERNAME}?start={unique_code}"
-        send_message(chat_id, f"✅ File Ready To Share!\n🔗 Share link:\n{link}")
+        send_message(chat_id, f"✅ File saved!\n🔗 Share link:\n{link}")
+
     except Exception as e:
         print("handle_file error:", e)
         send_message(chat_id, "❌ File save karne me error aayi.")
 
+# Start command
 def handle_start(chat_id, user_id, args):
     if is_banned(user_id):
         send_message(chat_id, "❌ You are banned from using this bot.")
@@ -103,18 +115,19 @@ def handle_start(chat_id, user_id, args):
     else:
         send_message(chat_id, "👋 Send me any file and I’ll give you a shareable link!")
 
+# Callback (I Joined)
 def handle_callback(callback):
-    user_id = callback.get("from", {}).get("id")
-    chat_id = callback.get("message", {}).get("chat", {}).get("id")
-    data = callback.get("data")
-    if not user_id or not chat_id:
-        return
+    user_id = callback["from"]["id"]
+    chat_id = callback["message"]["chat"]["id"]
+    data = callback["data"]
+
     if data == "checksub":
         if check_subscription(user_id):
             send_message(chat_id, "✅ Thanks! Ab file bhejo.")
         else:
             send_message(chat_id, "❌ Pehle join karo channel!")
 
+# Broadcast
 def handle_broadcast(text):
     users = load_json(users_file)
     for uid in users:
@@ -123,6 +136,7 @@ def handle_broadcast(text):
             time.sleep(0.1)
         except: continue
 
+# Main loop
 while True:
     try:
         resp = requests.get(f"{API_URL}/getUpdates", params={"offset": offset, "timeout": 30})
@@ -137,9 +151,7 @@ while True:
 
             message = update.get("message", {})
             chat_id = message.get("chat", {}).get("id")
-            user = message.get("from", {})
-            user_id = user.get("id")
-            first_name = user.get("first_name", "User")
+            user_id = message.get("from", {}).get("id")
             if not chat_id or not user_id:
                 continue
 
@@ -181,10 +193,6 @@ while True:
                         send_message(chat_id, "✅ Done broadcasting.")
                     else:
                         send_message(chat_id, "❌ Usage: /broadcast your message")
-
-                elif text.startswith("/users") and is_owner(user_id):
-                    users = load_json(users_file)
-                    send_message(chat_id, f"👥 Total users: {len(users)}")
 
             for media_type in ['document', 'video', 'audio', 'voice', 'video_note', 'photo']:
                 if media_type in message:
