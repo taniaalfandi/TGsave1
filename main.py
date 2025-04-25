@@ -209,6 +209,3 @@ while True:
     except Exception as e:
         print("Main loop error:", e)
         time.sleep(3)
-
-if __name__=="__main__":
-    main()
