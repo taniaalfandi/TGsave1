@@ -35,7 +35,7 @@ You need to set these variables before deploying:
 ---
 
 
-#📮 Credits
+## 📮 Credits
 Developed by @priyanshusingh999
 Bot logic & deployment steps prepared with ❤️ by community
 
