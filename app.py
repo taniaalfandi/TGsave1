@@ -23,5 +23,5 @@ threading.Thread(target=run_flask).start()
  #   return 'r_ajput999'
 
 
-#if __name__ == "__main__":
-#    app.run()
+if __name__ == "__main__":
+    app.run()
