@@ -15,16 +15,7 @@ def run_flask():
 
 # run Flask in background thread
 threading.Thread(target=run_flask).start()
-
-
 API_URL = f'https://api.telegram.org/bot{BOT_TOKEN}'
-
-# # Bot Config
-# BOT_TOKEN = ''
-# BOT_USERNAME = ''
-# STORAGE_CHANNEL_ID = 
-# FORCE_SUB_CHANNEL = '@'
-# OWNER_ID =   # 🔐 Bot owner ka Telegram ID
 
 offset = 0
 ban_file = 'banned.json'
@@ -102,7 +93,7 @@ def handle_file(chat_id, user_id, file_type, file_id, message_id):
         stored_message_id = result['result']["message_id"]
         unique_code = base64.urlsafe_b64encode(str(stored_message_id).encode()).decode()
         link = f"https://t.me/{BOT_USERNAME}?start={unique_code}"
-        send_message(chat_id, f"✅ File saved!\n🔗 Share link:\n{link}")
+        send_message(chat_id, f"🔗 Share link:\n{link}")
 
     except Exception as e:
         print("handle_file error:", e)
