@@ -18,7 +18,7 @@ def run_flask():
 
 threading.Thread(target=run_flask).start()
 
-API_URL = f'https://api.telegram.org/bot{BOT_TOKEN}'
+API_URL = f'https://api.telegram.org/bot{8183554389:AAGa9fYOziWl-B9abHqVXYD20WOjj0x0WoA}'
 offset = 0
 ban_file = 'banned.json'
 users_file = 'users.json'
