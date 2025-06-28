@@ -1,7 +1,7 @@
 import os
 
-BOT_TOKEN = os.getenv('BOT_TOKEN')
-OWNER_ID = int(os.getenv('OWNER_ID'))
-STORAGE_CHANNEL_ID = os.getenv('STORAGE_CHANNEL_ID')
-FORCE_SUB_CHANNEL = os.getenv('FORCE_SUB_CHANNEL')
-BOT_USERNAME = os.getenv('BOT_USERNAME')
+BOT_TOKEN = os.getenv('8183554389:AAGa9fYOziWl-B9abHqVXYD20WOjj0x0WoA')
+OWNER_ID = int(os.getenv('6767172487'))
+STORAGE_CHANNEL_ID = os.getenv('-1002568681851')
+FORCE_SUB_CHANNEL = os.getenv('@dbanserieso')
+BOT_USERNAME = os.getenv('FliesXbot')
